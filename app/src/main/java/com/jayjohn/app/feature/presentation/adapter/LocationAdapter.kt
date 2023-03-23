@@ -21,6 +21,10 @@ import com.jayjohn.app.R
 import com.jayjohn.app.feature.domain.model.Location
 import com.jayjohn.app.feature.domain.model.LocationData
 
+/**
+ * An adapter class for showing the list of locations returned from the weather API
+ * @param context
+ */
 class LocationAdapter (
     context: Context
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

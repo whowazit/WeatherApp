@@ -1,6 +1,5 @@
 package com.jayjohn.app.feature.domain.usecase
 
-import android.util.Log
 import com.jayjohn.app.feature.domain.model.LocationData
 import com.jayjohn.app.feature.domain.repository.WeatherRepository
 import com.jayjohn.app.utils.Resource
@@ -10,6 +9,11 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
+/**
+ * A UseCase class for getting the Location response
+ * Can also be used for changing, sorting or filtering the response before passing to the viewModel
+ * @param weatherRepository
+ */
 class GetLocationUseCase @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) {
@@ -25,13 +29,10 @@ class GetLocationUseCase @Inject constructor(
 
             emit(Resource.Success(response.distinct()))
         } catch (e: HttpException) {
-            Log.e("#-#", e.response()?.errorBody().toString())
             emit(Resource.Error(message = e.cause?.message ?: "Something went wrong"))
         } catch (e: IOException) {
-            Log.e("#-# fore", e.message.toString())
             emit(Resource.Error(message = e.cause?.message ?: "Something went wrong"))
         } catch (e: Exception) {
-            Log.e("#-# fore", e.message.toString())
             emit(Resource.Error(message = e.message ?: "Something went wrong"))
         }
     }

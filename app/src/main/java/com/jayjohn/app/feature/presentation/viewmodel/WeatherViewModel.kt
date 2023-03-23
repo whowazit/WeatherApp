@@ -32,6 +32,10 @@ class WeatherViewModel @Inject constructor(
     private val _search = MutableStateFlow(SearchEventState())
     val search: StateFlow<SearchEventState> = _search
 
+    /**
+     * Calls the API for forecast
+     * @param keyword A text to be passed to API for query
+     */
     fun getForecastData(keyword: String) {
         forecastJob?.cancel()
         forecastJob = weatherUseCases.getForecastDaysUseCase.invoke(
@@ -53,6 +57,10 @@ class WeatherViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    /**
+     * Calls the API for list of location
+     * @param keyword A text to be passed to API for query
+     */
     fun searchLocation(keyword: String) {
         searchJob?.cancel()
         searchJob = weatherUseCases.getLocationUseCase.invoke(

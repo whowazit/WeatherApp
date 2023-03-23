@@ -54,6 +54,9 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.floor
 
+/**
+ * A fragment class for showing the weather view
+ */
 @AndroidEntryPoint
 class WeatherFragment: Fragment() {
 
@@ -81,6 +84,7 @@ class WeatherFragment: Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
+        // Setup launcher for permission result
         locationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             permissions.entries.forEach {
                 if (!it.value) {
@@ -101,6 +105,9 @@ class WeatherFragment: Fragment() {
         getLocation()
     }
 
+    /**
+     * A function for initializing necessary views and variables
+     */
     private fun initViews() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
@@ -119,6 +126,9 @@ class WeatherFragment: Fragment() {
         }
     }
 
+    /**
+     * A function for setting up the listeners from API response
+     */
     private fun initStateListener() {
         lifecycle.coroutineScope.launch {
             viewModel.forecast.collect {
@@ -153,6 +163,9 @@ class WeatherFragment: Fragment() {
         }
     }
 
+    /**
+     * Setting up listeners such as onClicks, addTextChanged etc.
+     */
     private fun setListeners() {
         with(binding) {
             searchBtn.setOnClickListener {
@@ -227,6 +240,9 @@ class WeatherFragment: Fragment() {
         }
     }
 
+    /**
+     * A function for updating the views data
+     */
     private fun updateViews(data: WeatherData) {
         with(binding) {
             locationTv.text = data.location.name
@@ -250,6 +266,9 @@ class WeatherFragment: Fragment() {
         }
     }
 
+    /**
+     * Check if app has permission for location
+     */
     private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -265,6 +284,9 @@ class WeatherFragment: Fragment() {
         return false
     }
 
+    /**
+     * Launch the launcher for permission request
+     */
     private fun requestPermissions() {
         locationPermissionLauncher.launch(
             arrayOf(
@@ -274,7 +296,9 @@ class WeatherFragment: Fragment() {
         )
     }
 
-
+    /**
+     * Get the current location (lat and lon) for
+     */
     @SuppressLint("MissingPermission", "SetTextI18n")
     private fun getLocation() {
         if (checkPermissions()) {
@@ -308,6 +332,9 @@ class WeatherFragment: Fragment() {
         }
     }
 
+    /**
+     * Check if location is enabled
+     */
     private fun isLocationEnabled(): Boolean {
         val locationManager: LocationManager? = getSystemService(requireContext(), LocationManager::class.java)
         return locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) == true || locationManager?.isProviderEnabled(
